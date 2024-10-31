@@ -1,0 +1,2 @@
+checker pour sleep, les waits ne sont pas bons
+redirections pas ok non plus
