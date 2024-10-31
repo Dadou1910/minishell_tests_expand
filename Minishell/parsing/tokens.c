@@ -6,7 +6,7 @@
 /*   By: abremont <abremont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 01:25:41 by jealefev          #+#    #+#             */
-/*   Updated: 2024/10/30 09:56:26 by abremont         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:46:56 by abremont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char    *helper_quotes(char *arg, char c, t_state *state)
 	str[i] = '\0';
 	if (!str)
 		return (NULL);
-	if (!ft_strchr(str, '$') || state->sq_open)
+	if (!ft_strchr(str, '$') || state->sq_open
+		|| (ft_strchr(str, '$') && state->dq_open))
 		state->n[0] = j;
 	printf("str in helper_quotes : %s\n", str);
 	return (str);

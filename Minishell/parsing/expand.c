@@ -6,7 +6,7 @@
 /*   By: abremont <abremont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 01:25:41 by jealefev          #+#    #+#             */
-/*   Updated: 2024/10/30 10:12:06 by abremont         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:44:33 by abremont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ char	*process_char_helper(const char *input, char *result, t_state *state)
 			state->dq_open = !state->dq_open;
 			ft_strlcat(result, "\"", result_size);
 		}
-		else if (input[state->i] == '$' && !state->sq_open)
+		else if (input[state->i] == '$' && (!state->sq_open && !state->dq_open))
 		{
 			//printf("--->sq in process : %d\n", state->sq_open);
 			// printf("Entered expand in char_helper\n");
@@ -170,10 +170,9 @@ char	*process_char_helper(const char *input, char *result, t_state *state)
 		state->i++;
 	}
 	state->i = 0;
-	if (state->sq_open)
-		state->sq_open = 0;
-	if (state->dq_open)
-		state->dq_open = 0;
+	state->sq_open = 0;
+	state->dq_open = 0;
+	printf("state->dq_open at the end of helper : %d\n", state->dq_open);
 	printf("result at the end of helper : %s\n", result);
 	return (result);
 }
@@ -214,7 +213,7 @@ void handle_quotes_and_expand(char *arg, char *result, t_command *cmd, t_state *
                 // printf("--->quotes : %s\n", quotes[state->n[1]]);
         		if (str[0] != '\0' && str)
 					state->n[1]++;
-            	state->sq_open = !state->sq_open;
+            	state->sq_open = 0;
                 free(str);
             }
 			// printf("arg[(n[0])] end of block : %c\n", arg[(state->n[0])]);
@@ -241,7 +240,7 @@ void handle_quotes_and_expand(char *arg, char *result, t_command *cmd, t_state *
 					printf("quotes[state->n[1]] : %s\n", quotes[state->n[1]]);
 					printf("quotes[0] up : %s\n", quotes[0]);
 					state->n[1]++;
-            		state->dq_open = !state->dq_open;
+            		state->dq_open = 0;
 					result = NULL;
 				}
 				free(str);
